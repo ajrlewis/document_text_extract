@@ -3,4 +3,7 @@
 # Ensure you're in the repo root when calling this script
 # Run with: ./scripts/run.sh
 
-PYTHONPATH=src python3 -m document_text_extract assets/bitcoin.pdf
+source .venv/bin/activate
+PYTHONPATH=src python3 -m document_text_extract assets/sample_document.docx
+# PYTHONPATH=src python3 -m document_text_extract assets/sample_document.pdf
+# PYTHONPATH=src python3 -m document_text_extract assets/sample_document.html

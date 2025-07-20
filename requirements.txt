@@ -1,3 +1,5 @@
 loguru
 pymupdf
 python-docx
+pytest
+beautifulsoup4
