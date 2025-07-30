@@ -4,4 +4,5 @@
 # Run with: ./scripts/run.sh <FILENAME>
 
 source .venv/bin/activate
-PYTHONPATH=src python3 -m document_text_extract $1
+PYTHONPATH=src python3 -m document_text_extract "$1"
+
