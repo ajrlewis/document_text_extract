@@ -4,11 +4,30 @@ import io
 import os
 from pathlib import Path
 from typing import Union
+import re
 
 from bs4 import BeautifulSoup
+import docx
 import fitz  # PyMuPDF
 from loguru import logger
-import docx
+from PIL import Image, ImageFilter
+import pytesseract
+
+
+def load_text_from_image_bytes(img_bytes: bytes) -> str:
+    """Extract clean text from an image in memory (binary data), using preprocessing."""
+    img = Image.open(io.BytesIO(img_bytes)).convert("L")  # Convert to grayscale
+    img = img.filter(ImageFilter.MedianFilter())  # Reduce noise
+    config = "--oem 1"  # LSTM OCR engine
+    text = pytesseract.image_to_string(img, config=config)
+    return text
+
+
+def load_text_from_image_file(img_path: Union[str, Path]) -> str:
+    """Extract text from an image file using pytesseract."""
+    with open(img_path, "rb") as f:
+        img_bytes = f.read()
+    return extract_text_from_image_bytes(img_bytes)
 
 
 def load_pdf_text_from_bytes(pdf_bytes: bytes) -> str:
@@ -89,5 +108,7 @@ def load_text(file: Union[str, Path, bytes], filename: str = "") -> str:
         return load_docx_text_from_bytes(file_bytes)
     elif ext in (".html", ".htm"):
         return load_html_text_from_bytes(file_bytes)
+    elif ext in (".png"):
+        return load_text_from_image_bytes(file_bytes)
     else:
         raise ValueError(f"Unsupported file type: {ext}")

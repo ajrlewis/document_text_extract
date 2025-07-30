@@ -1,5 +1,8 @@
 loguru
+Pillow
+pytesseract
 pymupdf
 python-docx
 pytest
 beautifulsoup4
+
